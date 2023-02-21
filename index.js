@@ -6,12 +6,13 @@ let count = 0;
 let results = [];
 for (let { domain } of v1.result.records) {
     dns.lookup(domain, (err, address, family) => {
-        if(err) throw err;
+        count++;
+
+        if(err) return;
         
         results.push({ domain, address });
 
-        count++;
-    
+        // when done
         if (count !== v1.result.count) return;
 
         fs.writeFileSync("result.json", JSON.stringify(results));
